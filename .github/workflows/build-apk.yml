@@ -19,16 +19,18 @@ jobs:
       uses: actions/checkout@v4
 
     # Set up Java Development Kit
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
     # Setup Android SDK
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 8512546
 
     # Grant execute permission for gradlew
     - name: Grant execute permission for gradlew
@@ -65,12 +67,10 @@ jobs:
     # Create a release (optional - only on main branch)
     - name: Create Release
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ github.run_number }}
-        release_name: Tetris Game Release v${{ github.run_number }}
+        name: Tetris Game Release v${{ github.run_number }}
         body: |
           🎮 **VISWA'S CREATION - Tetris Game**
           
@@ -88,5 +88,8 @@ jobs:
           
           **Requirements:**
           - Android 5.0 (API 21) or higher
+        files: |
+          android_stuff/app/build/outputs/apk/debug/*.apk
+          android_stuff/app/build/outputs/apk/release/*.apk
         draft: false
         prerelease: false 
