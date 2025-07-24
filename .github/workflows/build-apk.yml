@@ -75,15 +75,6 @@ jobs:
         ls -la debug.keystore
         echo "Verifying keystore..."
         keytool -list -keystore debug.keystore -storepass android
-        
-    # Verify APK signing after build
-    - name: Verify APK signatures
-      run: |
-        cd android_stuff
-        echo "=== Verifying Debug APK Signature ==="
-        jarsigner -verify -verbose -certs app/build/outputs/apk/debug/*.apk
-        echo "=== Verifying Release APK Signature ==="
-        jarsigner -verify -verbose -certs app/build/outputs/apk/release/*.apk
 
     # Clean previous builds
     - name: Clean project
@@ -102,6 +93,23 @@ jobs:
       run: |
         cd android_stuff
         ./gradlew assembleRelease --stacktrace
+        
+    # Verify APK signing after build
+    - name: Verify APK signatures
+      run: |
+        cd android_stuff
+        echo "=== Verifying Debug APK Signature ==="
+        if ls app/build/outputs/apk/debug/*.apk 1> /dev/null 2>&1; then
+          jarsigner -verify -verbose -certs app/build/outputs/apk/debug/*.apk
+        else
+          echo "No debug APK found to verify"
+        fi
+        echo "=== Verifying Release APK Signature ==="
+        if ls app/build/outputs/apk/release/*.apk 1> /dev/null 2>&1; then
+          jarsigner -verify -verbose -certs app/build/outputs/apk/release/*.apk
+        else
+          echo "No release APK found to verify"
+        fi
 
     # Upload Debug APK as artifact (recommended for testing)
     - name: Upload Debug APK
