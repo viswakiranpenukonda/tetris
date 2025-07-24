@@ -66,6 +66,15 @@ jobs:
       run: |
         cd android_stuff/app
         keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+        
+    # Verify APK signing after build
+    - name: Verify APK signatures
+      run: |
+        cd android_stuff
+        echo "=== Verifying Debug APK Signature ==="
+        jarsigner -verify -verbose -certs app/build/outputs/apk/debug/*.apk
+        echo "=== Verifying Release APK Signature ==="
+        jarsigner -verify -verbose -certs app/build/outputs/apk/release/*.apk
 
     # Clean previous builds
     - name: Clean project
