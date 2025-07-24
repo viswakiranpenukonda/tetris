@@ -11,22 +11,25 @@
 ## 🔧 **Fixes Applied**
 
 ### **1. Updated SDK Versions**
-- ✅ **compileSdk:** 34 (stable version)
-- ✅ **targetSdk:** 34 (stable version)
+- ✅ **compileSdk:** 35 (Android 15)
+- ✅ **targetSdk:** 35 (Android 15)
 - ✅ **Updated dependencies** to latest versions
 
 ### **2. Enhanced Manifest**
 - ✅ **Added `enableOnBackInvokedCallback="true"`**
-- ✅ **Updated `targetApi` to 34**
+- ✅ **Updated `targetApi` to 35**
 - ✅ **Android 15 compatibility configurations**
+- ⚠️ **Removed `enableOnBackInvokedCallbackForFragments`** (not available in current SDK)
 
 ### **3. Updated Dependencies**
 ```gradle
-androidx.core:core-ktx:1.12.0
-com.google.android.material:material:1.11.0
-androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0
-androidx.activity:activity-ktx:1.8.2
-androidx.fragment:fragment-ktx:1.6.2
+androidx.core:core-ktx:1.13.0
+com.google.android.material:material:1.12.0
+androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0
+androidx.activity:activity-ktx:1.9.0
+androidx.fragment:fragment-ktx:1.7.0
+androidx.window:window:1.2.0
+androidx.core:core-splashscreen:1.0.1
 ```
 
 ### **4. Theme Compatibility**

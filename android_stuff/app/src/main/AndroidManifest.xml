@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TetrisGame"
         android:enableOnBackInvokedCallback="true"
-        android:enableOnBackInvokedCallbackForFragments="true"
         tools:targetApi="35">
         
         <!-- Splash Activity - Launcher -->
