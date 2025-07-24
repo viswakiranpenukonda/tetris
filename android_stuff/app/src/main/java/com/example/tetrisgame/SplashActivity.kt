@@ -7,10 +7,14 @@ import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class SplashActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Install splash screen before calling super.onCreate()
+        installSplashScreen()
+        
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         

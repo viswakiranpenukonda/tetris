@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.activity.OnBackPressedCallback
 import com.example.tetrisgame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setupGame()
         setupObservers()
         setupControls()
+        setupBackPress()
     }
 
     private fun setupGame() {
@@ -83,6 +85,19 @@ class MainActivity : AppCompatActivity() {
             gameViewModel.startNewGame()
             binding.gameOverLayout.visibility = View.GONE
         }
+    }
+
+    private fun setupBackPress() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Handle back press - pause game or show exit dialog
+                if (gameViewModel.isPaused.value == false) {
+                    gameViewModel.togglePause()
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
     override fun onPause() {
