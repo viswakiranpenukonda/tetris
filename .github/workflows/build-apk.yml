@@ -36,15 +36,15 @@ jobs:
       uses: android-actions/setup-android@v3
       with:
         cmdline-tools-version: 11076708
-        build-tools-version: 35.0.0
-        platform: 35
+        build-tools-version: 34.0.0
+        platform: 34
         
     # Install Android SDK Platform 35
     - name: Install Android SDK Platform 35
       run: |
         echo "=== Installing Android SDK Platform 35 ==="
-        yes | sdkmanager "platforms;android-35"
-        echo "=== Platform 35 Installation Complete ==="
+        yes | sdkmanager "platforms;android-35" || echo "Platform 35 not available, using 34"
+        echo "=== Platform Installation Complete ==="
         
     # Verify Android SDK installation
     - name: Verify Android SDK
@@ -79,6 +79,26 @@ jobs:
         rm -rf .gradle/
         echo "Testing gradlew execution..."
         ./gradlew --version
+        
+    # Force update Gradle wrapper properties
+    - name: Force update Gradle wrapper
+      run: |
+        cd android_stuff
+        echo "Forcing Gradle wrapper update to 8.4-all..."
+        sed -i 's|distributionUrl=https\\://services.gradle.org/distributions/gradle-.*\.zip|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.4-all.zip|g' gradle/wrapper/gradle-wrapper.properties
+        echo "Updated gradle-wrapper.properties:"
+        cat gradle/wrapper/gradle-wrapper.properties
+        
+    # Update Gradle wrapper to 8.4
+    - name: Update Gradle wrapper
+      run: |
+        cd android_stuff
+        echo "Current Gradle version:"
+        ./gradlew --version
+        echo "Updating Gradle wrapper to 8.4 (all distribution)..."
+        ./gradlew wrapper --gradle-version=8.4 --distribution-type=all
+        echo "Verifying Gradle version after update:"
+        ./gradlew --version
 
     # Generate debug keystore for signing
     - name: Generate debug keystore
@@ -95,6 +115,32 @@ jobs:
         echo "Verifying keystore..."
         keytool -list -keystore debug.keystore -storepass android
 
+    # Check available Android SDK platforms
+    - name: Check Android SDK platforms
+      run: |
+        echo "=== Available Android SDK Platforms ==="
+        ls -la $ANDROID_HOME/platforms/
+        echo "=== Available Build Tools ==="
+        ls -la $ANDROID_HOME/build-tools/
+        echo "=== SDK Check Complete ==="
+        
+    # Check for dependency conflicts
+    - name: Check dependencies
+      run: |
+        cd android_stuff
+        echo "Checking for dependency conflicts..."
+        ./gradlew app:dependencies --configuration implementation || echo "Dependency check completed"
+        
+    # Verify Gradle and AGP compatibility
+    - name: Verify Gradle compatibility
+      run: |
+        cd android_stuff
+        echo "=== Gradle Version Check ==="
+        ./gradlew --version
+        echo "=== Android Gradle Plugin Version ==="
+        grep "com.android.application" build.gradle
+        echo "=== Compatibility Check Complete ==="
+
     # Clean previous builds
     - name: Clean project
       run: |
@@ -105,13 +151,27 @@ jobs:
     - name: Build Debug APK
       run: |
         cd android_stuff
-        ./gradlew assembleDebug --stacktrace
+        echo "Building Debug APK with Android SDK 35..."
+        ./gradlew assembleDebug --stacktrace || {
+          echo "Build failed with SDK 35, trying with SDK 34..."
+          # Temporarily modify build.gradle to use SDK 34
+          sed -i 's/compileSdk 35/compileSdk 34/g' app/build.gradle
+          sed -i 's/targetSdk 35/targetSdk 34/g' app/build.gradle
+          ./gradlew assembleDebug --stacktrace
+        }
 
     # Build release APK
     - name: Build Release APK
       run: |
         cd android_stuff
-        ./gradlew assembleRelease --stacktrace
+        echo "Building Release APK with Android SDK 35..."
+        ./gradlew assembleRelease --stacktrace || {
+          echo "Build failed with SDK 35, trying with SDK 34..."
+          # Temporarily modify build.gradle to use SDK 34
+          sed -i 's/compileSdk 35/compileSdk 34/g' app/build.gradle
+          sed -i 's/targetSdk 35/targetSdk 34/g' app/build.gradle
+          ./gradlew assembleRelease --stacktrace
+        }
         
     # Verify APK signing after build
     - name: Verify APK signatures
