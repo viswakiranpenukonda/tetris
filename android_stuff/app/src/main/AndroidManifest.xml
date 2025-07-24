@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TetrisGame"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="35">
+        tools:targetApi="34">
         
         <!-- Splash Activity - Launcher -->
         <activity

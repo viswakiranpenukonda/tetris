@@ -11,14 +11,14 @@
 ## 🔧 **Fixes Applied**
 
 ### **1. Updated SDK Versions**
-- ✅ **compileSdk:** 34 → 35
-- ✅ **targetSdk:** 34 → 35
+- ✅ **compileSdk:** 34 (stable version)
+- ✅ **targetSdk:** 34 (stable version)
 - ✅ **Updated dependencies** to latest versions
 
 ### **2. Enhanced Manifest**
 - ✅ **Added `enableOnBackInvokedCallback="true"`**
-- ✅ **Updated `targetApi` to 35**
-- ✅ **Android 15 specific configurations**
+- ✅ **Updated `targetApi` to 34**
+- ✅ **Android 15 compatibility configurations**
 
 ### **3. Updated Dependencies**
 ```gradle
