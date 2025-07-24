@@ -1,0 +1,92 @@
+name: Build Android APK
+
+# Trigger the workflow on push to main branch and pull requests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Set up Java Development Kit
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    # Setup Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+
+    # Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew
+      run: chmod +x android_stuff/gradlew
+
+    # Build debug APK
+    - name: Build Debug APK
+      run: |
+        cd android_stuff
+        ./gradlew assembleDebug --stacktrace
+
+    # Build release APK
+    - name: Build Release APK
+      run: |
+        cd android_stuff
+        ./gradlew assembleRelease --stacktrace
+
+    # Upload Debug APK as artifact
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: tetris-game-debug-apk
+        path: android_stuff/app/build/outputs/apk/debug/*.apk
+        retention-days: 30
+
+    # Upload Release APK as artifact
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: tetris-game-release-apk
+        path: android_stuff/app/build/outputs/apk/release/*.apk
+        retention-days: 30
+
+    # Create a release (optional - only on main branch)
+    - name: Create Release
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Tetris Game Release v${{ github.run_number }}
+        body: |
+          🎮 **VISWA'S CREATION - Tetris Game**
+          
+          This release contains the latest build of the Tetris game with:
+          - Classic Tetris gameplay
+          - Touch controls
+          - Professional splash screen with animations
+          - Scoring system
+          
+          **Installation:**
+          1. Download the APK from the artifacts below
+          2. Enable "Unknown Sources" in your Android device settings
+          3. Install the APK
+          4. Enjoy the game!
+          
+          **Requirements:**
+          - Android 5.0 (API 21) or higher
+        draft: false
+        prerelease: false 
