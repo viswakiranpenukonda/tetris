@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Tetris-themed background pattern -->
+    <View
+        android:id="@+id/backgroundPattern"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Main title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_title"
+        android:textColor="@color/cyan"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="0.1"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_subtitle"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:layout_marginTop="16dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Loading indicator -->
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:indeterminateTint="@color/cyan"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Tetris pieces decoration -->
+    <LinearLayout
+        android:id="@+id/tetrisPieces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- I-Piece -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/cyan" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/cyan" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/cyan" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/cyan" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp" />
+
+        <!-- T-Piece -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/magenta" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/magenta" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/magenta" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp" />
+
+        <!-- O-Piece -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/yellow" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="2dp"
+            android:background="@color/yellow" />
+
+    </LinearLayout>
+
+    <!-- Version info -->
+    <TextView
+        android:id="@+id/versionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version 1.0"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:alpha="0.7"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout> 

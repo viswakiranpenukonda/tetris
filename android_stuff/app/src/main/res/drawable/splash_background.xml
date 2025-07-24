@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Base black background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/black" />
+        </shape>
+    </item>
+    
+    <!-- Grid pattern overlay -->
+    <item>
+        <bitmap
+            android:src="@drawable/grid_pattern"
+            android:tileMode="repeat"
+            android:alpha="0.1" />
+    </item>
+    
+    <!-- Gradient overlay for depth -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="800dp"
+                android:centerX="0.5"
+                android:centerY="0.5"
+                android:startColor="#00000000"
+                android:centerColor="#00000000"
+                android:endColor="#33000000" />
+        </shape>
+    </item>
+    
+</layer-list> 
