@@ -46,6 +46,13 @@ jobs:
         ls -la gradlew
         echo "Checking gradlew file type..."
         file gradlew
+
+    # Clear Gradle cache to avoid version conflicts
+    - name: Clear Gradle cache
+      run: |
+        cd android_stuff
+        rm -rf ~/.gradle/caches/
+        rm -rf .gradle/
         echo "Testing gradlew execution..."
         ./gradlew --version
 
