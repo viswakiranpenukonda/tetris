@@ -32,9 +32,28 @@ jobs:
       with:
         cmdline-tools-version: 8512546
 
-    # Grant execute permission for gradlew
-    - name: Grant execute permission for gradlew
-      run: chmod +x android_stuff/gradlew
+    # Verify and fix gradlew
+    - name: Check and prepare gradlew
+      run: |
+        cd android_stuff
+        echo "Checking gradlew file..."
+        ls -la gradlew
+        echo "Converting line endings to Unix format..."
+        dos2unix gradlew 2>/dev/null || sed -i 's/\r$//' gradlew
+        echo "Making gradlew executable..."
+        chmod +x gradlew
+        echo "Verifying gradlew permissions..."
+        ls -la gradlew
+        echo "Checking gradlew file type..."
+        file gradlew
+        echo "Testing gradlew execution..."
+        ./gradlew --version
+
+    # Clean previous builds
+    - name: Clean project
+      run: |
+        cd android_stuff
+        ./gradlew clean --stacktrace
 
     # Build debug APK
     - name: Build Debug APK
